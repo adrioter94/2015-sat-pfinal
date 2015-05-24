@@ -1,0 +1,18 @@
+from django.contrib.syndication.views import Feed
+form actividades_madrid.models import Usuario
+
+class RssUsuarios(Feed):
+
+    title = "Actividades de usuarios"
+    link = "/blog/"
+    description = "Actividades seleccionadas por el usuario"
+
+    def items(self):
+        return Entrada.objects.all().order_by('-fecha')[:5]
+
+    def item_title(self, item):
+        return item.titulo
+
+    def item_description(self, item):
+        return item.texto
+

@@ -1,0 +1,94 @@
+#!/usr/bin/python
+
+#
+# Simple XML parser for JokesXML
+# Jesus M. Gonzalez-Barahona
+# jgb @ gsyc.es
+# TSAI and SAT subjects (Universidad Rey Juan Carlos)
+# September 2009
+#
+# Just prints the jokes in a JokesXML file
+
+from xml.sax.handler import ContentHandler
+from xml.sax import make_parser
+import sys
+from models import Actividad
+import string
+import urllib
+
+def normalize_whitespace(text):
+    "Remove redundant whitespace from a string"
+    return string.join(string.split(text), ' ')
+
+class CounterHandler(ContentHandler):
+
+    def __init__ (self):
+        self.inContent = 0
+        self.theContent = ""
+        self.title = ""
+
+    def startElement (self, name, attrs):
+        if name == 'atributo':
+            self.title = normalize_whitespace(attrs.get('nombre'))
+            #print " title: " + self.title + "."
+        if self.title == 'TITULO':
+            self.inContent = 1
+        elif self.title == 'GRATUITO':
+            self.inContent = 1
+        elif self.title == 'EVENTO-LARGA-DURACION':
+            self.inContent = 1
+        elif self.title == 'FECHA-EVENTO':
+            self.inContent = 1
+        elif self.title == 'FECHA-FIN-EVENTO':
+            self.inContent = 1
+        elif self.title == 'HORA-EVENTO':
+            self.inContent = 1
+        elif self.title == 'CONTENT-URL':
+            self.inContent = 1
+        #elif self.title == 'TIPO':
+        #    self.inContent = 1
+      
+    def endElement (self, name):
+        if self.inContent:
+            self.theContent = normalize_whitespace(self.theContent)
+            print '--------------'
+        
+        if self.title == 'TITULO':
+            fila = Actividades(titulo=self.theContent)
+            print "  TITULO: " + self.theContent + "."
+        elif self.title == 'GRATUITO':
+            print "  GRATUITO: " + self.theContent + "."
+        elif self.title == 'EVENTO-LARGA-DURACION':
+            print "  EVENTO-LARGA-DURACION: " + self.theContent + "."
+        elif self.title == 'FECHA-EVENTO':
+            print "  FECHA-EVENTO: " + self.theContent + "."
+        elif self.title == 'FECHA-FIN-EVENTO':
+            print "  FECHA-FIN-EVENT: " + self.theContent + "."
+        elif self.title == 'HORA-EVENTO':
+            print "  HORA-EVENTO: " + self.theContent + "."
+        elif self.title == 'CONTENT-URL':
+            print "  CONTENT-URL: " + self.theContent + "."
+        #elif self.title == 'TIPO':
+         #   print "  TIPO: " + self.theContent + "."
+
+        if self.inContent:
+            self.inContent = 0
+            self.theContent = ""
+
+    def characters (self, chars):
+        if self.inContent:
+            self.theContent = self.theContent + chars
+    
+# Load parser and driver
+
+def getNoticias():
+
+    theParser = make_parser()
+    theHandler = CounterHandler()
+    theParser.setContentHandler(theHandler)
+
+    # Ready, set, go!
+
+    xmlFile = urllib.urlopen('http://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=xml&file=0&filename=206974-0-agenda-eventos-culturales-100&mgmtid=6c0b6d01df986410VgnVCM2000000c205a0aRCRD')
+    return theParser.parse(xmlFile)
+print "Parse complete"

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Actividades</title>
+        <link rel="stylesheet" href="/css/style2.css" type="text/css"/>
+    </head>
+    
+    <body>
+        <div id="banner">
+        </div>
+        <div id="menu">
+            <div class="todas">
+                <a href="/todas">Todas</a>
+		    </div>
+            <div class="ayuda">
+                <a href="/ayuda">Ayuda</a>
+		    </div>
+            <div class="inicio">
+               {{inicio|safe}}
+		    </div>
+	    </div>
+        <div id="cuerpo">
+            <div id=login>
+                <h3>
+                    Nuevo Usuario                   
+                </h3>
+                {{loggin|safe}}
+            </div>
+            <div id=error>
+                {{error|safe}}
+            </div>
+        </div>
+        <div id="pie"></div>
+    </body>
+</html>

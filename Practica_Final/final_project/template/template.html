@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Actividades en Madrid</title>
+        <link rel="stylesheet" href="/css/style.css" type="text/css"/>
+        <link rel="shortcut icon" href="/css/imagenes/urjc.png" />
+    </head>
+    
+    <body>
+        <div id="banner">
+        </div>
+        <div id="menu">
+            <div class="todas">
+                <a href="/todas">Todas</a>
+		    </div>
+            <div class="ayuda">
+                <a href="/ayuda">Ayuda</a>
+		    </div>
+            <div class="inicio">
+               {{inicio|safe}}
+		    </div>
+	    </div>
+        <div id="cuerpo"> 
+            <div id='izq'>
+                <div id="actividades"> 
+                    <h2>
+                        {{titulo|safe}}
+                    </h2> 
+                    {{contenido|safe}}
+                    
+                    <h2>
+                        {{personales|safe}}
+                    </h2> 
+                    {{cuerpo_personales|safe}}
+                </div>
+            </div>
+            <div id='dcha'>
+                <div id=login>
+                    <h3>
+                        Loggin
+                    </h3>
+                        {{error|safe}}
+                        {{loggin|safe}}
+                </div>
+                <div id="filtro">
+                    {{busqueda|safe}}
+                </div>
+                <div id="actualizar">
+                    {{actualizar|safe}}
+                </div>
+
+                 <br><div id="rss">
+                    {{rss|safe}}
+                </div></br>
+            </div>
+        </div>
+        <div id="pie">
+            {{pie|safe}}
+        </div>
+    </body>
+</html>
